@@ -36,4 +36,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    //load the label
+    protected $appends = [
+      'label'  
+    ];
+    
+    //we should always have a department loaded
+    protected $with = [
+        'department'
+    ];
+
+    public function department(){
+        return $this->belongsTo(Department::class);
+    }
+
+    public function getLabelAttribute(){
+        return "({$this->department->name}) {$this->name}";
+    }
 }
